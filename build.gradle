@@ -16,10 +16,11 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.springframework.boot:spring-boot-starter-web-services'
-	testImplementation('org.springframework.boot:spring-boot-starter-test') {
-		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
-	}
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+	compile 'com.github.derjust:spring-data-dynamodb:5.1.0'
+	compile 'com.amazonaws:aws-java-sdk-dynamodb:1.11.585'
+
 }
 
 test {
