@@ -23,7 +23,7 @@ public class Task {
         this.title = title;
         this.description = description;
         this.status = "available";
-//        this.historyList.add(historyCreation(this.status));
+        this.historyList.add(historyCreation(this.status));
         this.assignee = null;
     }
 
@@ -31,7 +31,7 @@ public class Task {
         this.title = title;
         this.description = description;
         this.status = "available";
-//        this.historyList.add(historyCreation(this.status));
+        this.historyList.add(historyCreation(this.status));
         this.assignee = assignee;
     }
 
