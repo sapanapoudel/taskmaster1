@@ -1,6 +1,6 @@
 ## lab 27 DynamoDB and AWS
-Author: Jack Daniel Kinne, Sapana Poudel, Peter Le
-Challenge by: Codefellows.
+- Author: Jack Daniel Kinne, Sapana Poudel, Peter Lee
+- Challenge by: Codefellows.
 <!-- Short summary or background information -->
 - write a complete model, with get, put, and post routes below:
 
@@ -25,7 +25,7 @@ This should work (i.e. return an empty array) if the requested username does not
 - You should also use DynamoDB for your local application testing; in other words, you should connect to your production database, even in your development environment. (This is generally a bad practice, and we’ll see how to work differently soon.)
 
 ## credits and contributions
-Brandon Hurrington
-Matthew Stuhring
-Chris Coulton
-Melfi Perez
+- Brandon Hurrington
+- Matthew Stuhring
+- Chris Coulton
+- Melfi Perez
