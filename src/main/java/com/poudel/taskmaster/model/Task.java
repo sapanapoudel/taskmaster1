@@ -16,7 +16,7 @@ public class Task {
     private String description;
     private String status;
     private String assignee;
-    private ArrayList<History> historyList;
+    private ArrayList<History> historyList = new ArrayList<>();
 
     public Task(){}
 
@@ -24,7 +24,7 @@ public class Task {
         this.title = title;
         this.description = description;
         this.status = "available";
-//        this.historyList.add(historyCreation(this.status));
+        this.historyList.add(historyCreation(this.status));
         this.assignee = null;
     }
 
@@ -32,14 +32,14 @@ public class Task {
         this.title = title;
         this.description = description;
         this.status = "available";
-//        this.historyList.add(historyCreation(this.status));
+        this.historyList.add(historyCreation(this.status));
         this.assignee = assignee;
     }
 
 
     public History historyCreation(String update) {
         Date date = new Date();
-        History history = new History(date, update );
+        History history = new History(date.toString(), update );
         return history;
     }
 

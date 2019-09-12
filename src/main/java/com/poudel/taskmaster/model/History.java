@@ -12,7 +12,7 @@ public class History {
 
     public History(){}
 
-    public History(Date date, String action) {
+    public History(String date, String action) {
         this.date = date.toString();
         this.action = action;
     }
