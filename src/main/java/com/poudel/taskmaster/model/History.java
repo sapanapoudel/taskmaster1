@@ -16,8 +16,6 @@ public class History { ;
         this.date = new Date().toString();
         this.action = action;
     }
-
-
     public String getDate() {
         return date;
     }
