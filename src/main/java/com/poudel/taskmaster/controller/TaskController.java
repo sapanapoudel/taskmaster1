@@ -9,6 +9,7 @@ import com.poudel.taskmaster.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,15 +30,7 @@ public class TaskController {
     public Task addNewTask(@RequestBody Task task) {
         Task newTask = new Task(task.getTitle(), task.getDescription(),
                 task.getAssignee());
-//        newTask.setTitle(task.getTitle());
-//        newTask.setDescription(task.getDescription());
-//        newTask.setStatus(task.getStatus());
-        DynamoDBConfig dynamoDBConfig = new DynamoDBConfig();
 
-        AmazonDynamoDB dynamo = new AmazonDynamoDBClient(dynamoDBConfig.credentialsProvider().
-                getCredentials());
-        DynamoDBMapper  mapper = new DynamoDBMapper(dynamo);
-        mapper.save(newTask);
         taskRepository.save(newTask);
         return newTask;
     }

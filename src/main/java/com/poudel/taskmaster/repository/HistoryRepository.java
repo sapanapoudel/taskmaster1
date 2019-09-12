@@ -8,6 +8,6 @@ import java.util.Optional;
 
 @EnableScan
 public interface HistoryRepository extends CrudRepository<Task, String> {
-    Optional<Task> findById(String id);
+
 
 }
