@@ -1,10 +1,6 @@
 package com.poudel.taskmaster.controller;
-
-import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
-import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
+import com.poudel.taskmaster.model.History;
 import com.poudel.taskmaster.model.Task;
-import com.poudel.taskmaster.repository.DynamoDBConfig;
 import com.poudel.taskmaster.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -31,6 +27,10 @@ public class TaskController {
         Task newTask = new Task(task.getTitle(), task.getDescription(),
                 task.getAssignee());
 
+        String date = new Date().toString();
+        History history = new History("task is assigned to: " + task.getAssignee());
+        newTask.getHistoryList().add(history);
+
         taskRepository.save(newTask);
         return newTask;
     }
@@ -39,6 +39,37 @@ public class TaskController {
     public Optional<Task> getTasksOfName(@PathVariable String name){
         Optional<Task> tasks = taskRepository.findByAssignee(name);
         return tasks;
+    }
+
+    @PutMapping("/tasks/{id}/state")
+    public Task updateStatus(@PathVariable String id){
+        Task task = taskRepository.findById(id).get();
+        String status = task.getStatus();
+        String date = new Date().toString();
+        History history = new History("task is assigned to: " + task.getAssignee());
+        if(status.equals("available")){
+            task.setStatus("assigned");
+        }else if(status.equals("assigned")){
+            task.setStatus("accepted");
+        }else if(status.equals("accepted")){
+            task.setStatus("finished");
+        }
+        task.getHistoryList().add(history);
+        taskRepository.save(task);
+        return task;
+    }
+
+    @PutMapping("/tasks/{id}/assign/{assignee}")
+    public Task updateAssignee(@PathVariable String id, @PathVariable String assignee) {
+        Task task = taskRepository.findById(id).get();
+        task.setAssignee(assignee);
+        task.setStatus("assigned");
+        String status = task.getStatus();
+        Date date = new Date();
+        History history = new History("task is assigned to: " + task.getAssignee());
+        task.getHistoryList().add(history);
+        taskRepository.save(task);
+        return task;
     }
 
 }
