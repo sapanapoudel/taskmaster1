@@ -27,7 +27,7 @@ const addRecord = (record) => {
   ddbClient.put(params, function(err,data) {
     if(err) { console.error(err); }
     else {
-
+      //console.log('saved')
     }
   })
 

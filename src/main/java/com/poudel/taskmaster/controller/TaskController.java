@@ -1,6 +1,11 @@
 package com.poudel.taskmaster.controller;
+
+import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
+import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.poudel.taskmaster.model.History;
 import com.poudel.taskmaster.model.Task;
+import com.poudel.taskmaster.repository.DynamoDBConfig;
 import com.poudel.taskmaster.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -26,9 +31,19 @@ public class TaskController {
     public Task addNewTask(@RequestBody Task task) {
         Task newTask = new Task(task.getTitle(), task.getDescription(),
                 task.getAssignee());
-        String date = new Date().toString();
-        History history = new History("task is assigned to: " + task.getAssignee());
-        newTask.getHistoryList().add(history);
+//        newTask.setTitle(task.getTitle());
+//        newTask.setDescription(task.getDescription());
+//        newTask.setStatus(task.getStatus());
+//        DynamoDBConfig dynamoDBConfig = new DynamoDBConfig();
+//
+//        AmazonDynamoDB dynamo = new AmazonDynamoDBClient(dynamoDBConfig.credentialsProvider().
+//                getCredentials());
+//        DynamoDBMapper  mapper = new DynamoDBMapper(dynamo);
+//        mapper.save(newTask);
+        DynamoDBConfig dynamoDBConfig = new DynamoDBConfig();
+        AmazonDynamoDB client  = dynamoDBConfig.amazonDynamoDB();
+        DynamoDBMapper mapper = new DynamoDBMapper(client);
+        mapper.save(newTask);
         taskRepository.save(newTask);
         return newTask;
     }
@@ -43,8 +58,8 @@ public class TaskController {
     public Task updateStatus(@PathVariable String id){
         Task task = taskRepository.findById(id).get();
         String status = task.getStatus();
-        String date = new Date().toString();
-        History history = new History("task is assigned to: " + task.getAssignee());
+        Date date = new Date();
+        History history = new History(date, status);
         if(status.equals("available")){
             task.setStatus("assigned");
         }else if(status.equals("assigned")){
@@ -52,22 +67,15 @@ public class TaskController {
         }else if(status.equals("accepted")){
             task.setStatus("finished");
         }
+        //TODO: call historyCreation() on task and save it
         task.getHistoryList().add(history);
+        DynamoDBConfig dynamoDBConfig = new DynamoDBConfig();
+        AmazonDynamoDB client  = dynamoDBConfig.amazonDynamoDB();
+        DynamoDBMapper mapper = new DynamoDBMapper(client);
+        mapper.save(task);
         taskRepository.save(task);
         return task;
-    }
 
-    @PutMapping("/tasks/{id}/assign/{assignee}")
-    public Task updateAssignee(@PathVariable String id, @PathVariable String assignee) {
-        Task task = taskRepository.findById(id).get();
-        task.setAssignee(assignee);
-        task.setStatus("assigned");
-        String status = task.getStatus();
-        Date date = new Date();
-        History history = new History("task is assigned to: " + task.getAssignee());
-        task.getHistoryList().add(history);
-        taskRepository.save(task);
-        return task;
     }
 
 }
