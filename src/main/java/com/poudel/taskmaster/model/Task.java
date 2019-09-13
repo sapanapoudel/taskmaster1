@@ -16,6 +16,7 @@ public class Task {
     private String description;
     private String status;
     private String assignee;
+    private String url;
 
     private ArrayList<History> historyList = new ArrayList<>();
 
@@ -29,6 +30,7 @@ public class Task {
         this.historyList.add(historyCreation(this.status));
 
         this.assignee = null;
+        this.url = null;
     }
 
     public Task(String title, String description, String assignee){
@@ -39,13 +41,24 @@ public class Task {
         this.historyList.add(historyCreation(this.status));
 
         this.assignee = assignee;
+        this.url = null;
+    }
+
+    public Task(String title, String description, String assignee, String url){
+        this.title = title;
+        this.description = description;
+
+        this.status = "assigned";
+        this.historyList.add(historyCreation(this.status));
+
+        this.assignee = assignee;
+        this.url = url;
     }
 
 
     public History historyCreation(String update) {
 
-        Date date = new Date();
-        History history = new History(date.toString(), update );
+        History history = new History(update );
 
         return history;
     }
@@ -106,4 +119,12 @@ public class Task {
         this.historyList = historyList;
     }
 
+    @DynamoDBAttribute
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
 }

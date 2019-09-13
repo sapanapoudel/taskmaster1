@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,7 +20,7 @@ public class TaskController {
 
     @GetMapping("/tasks")
     public List<Task> getTasks(){
-        return (    List) taskRepository.findAll();
+        return (List) taskRepository.findAll();
     }
 
     @PostMapping("/tasks")
@@ -33,6 +34,25 @@ public class TaskController {
 
         taskRepository.save(newTask);
         return newTask;
+    }
+
+    @PostMapping("/tasks/images")
+    public Task addNewTaskWithImage(@RequestBody Task task){
+        Task newTask = new Task(task.getTitle(), task.getDescription(),
+                task.getAssignee(), task.getUrl());
+
+        String date = new Date().toString();
+        History history = new History("task is assigned to: " + task.getAssignee());
+        newTask.getHistoryList().add(history);
+
+        taskRepository.save(newTask);
+        return newTask;
+    }
+
+    @GetMapping("/tasks/{id}")
+    public Task getTaskAtId(@PathVariable String id){
+        Task task = taskRepository.findById(id).get();
+        return task;
     }
 
     @GetMapping("/users/{name}/tasks")

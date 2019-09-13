@@ -12,11 +12,12 @@ public class History { ;
 
     public History(){}
 
-    @DynamoDBAttribute
     public History(String action) {
         this.date = new Date().toString();
         this.action = action;
     }
+
+    @DynamoDBAttribute
     public String getDate() {
         return date;
     }
@@ -25,6 +26,7 @@ public class History { ;
         this.date = date;
     }
 
+    @DynamoDBAttribute
     public  String getAction() {
         return action;
     }

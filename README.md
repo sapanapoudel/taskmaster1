@@ -4,9 +4,20 @@
 <!-- Short summary or background information -->
 - write a complete model, with get, put, and post routes below:
 
+## links:
+- [Frontend](http://taskmaster-frontend-jack.s3-website-us-west-2.amazonaws.com/)
+- [Backend](http://taskmaster1-dev.us-west-2.elasticbeanstalk.com/api1/v2/tasks)
+- ![screenshot](screen.png)
+
 
 ## Challenge
 <!-- Description of the challenge -->
+- Users should be able to upload images that are associated with tasks.
+This ability should be at a route like POST /tasks/{id}/images. (This means it only needs to work for existing tasks, not as part of the initial creation of a task.)
+Your server should programmatically upload this image to S3.
+Your server should store the image URL (on S3) somewhere in its database, associated with the task.
+Fetching a single task (at GET /tasks/{id}) should also include the image URLs associated with that image.
+
 - A user should be able to make a GET request to /tasks and receive JSON data representing all of the tasks.
 Each task should have a title, description, assignee, and status, all of which are strings, as well as an id.
 - A user should be able to make a GET request to /users/{name}/tasks and receive JSON data representing all of the tasks assigned to that user.
