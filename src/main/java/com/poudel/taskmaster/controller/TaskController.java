@@ -62,7 +62,6 @@ public class TaskController {
 
         taskRepository.save(newTask);
 
-        taskRepository.save(newTask);
         return newTask;
     }
 
